@@ -1,6 +1,6 @@
-from rest_framework import viewsets
-from .models import Category, Project, ProjectImage
-from .serializers import CategorySerializer, ProjectSerializer, ProjectImageSerializer
+from rest_framework import viewsets, mixins
+from .models import Category, Project, ProjectImage, Enquiry
+from .serializers import CategorySerializer, ProjectSerializer, ProjectImageSerializer, EnquirySerializer
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
@@ -20,3 +20,7 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
 class ProjectImageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ProjectImage.objects.all()
     serializer_class = ProjectImageSerializer
+
+class EnquiryViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = Enquiry.objects.all()
+    serializer_class = EnquirySerializer

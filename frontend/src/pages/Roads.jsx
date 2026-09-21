@@ -10,7 +10,7 @@ const pageVariants = {
   out: { opacity: 0 }
 };
 
-function Interior() {
+function Roads() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,10 +19,10 @@ function Interior() {
     window.scrollTo(0, 0);
     const loadProjects = async () => {
       try {
-        const data = await fetchProjects('interior');
+        const data = await fetchProjects('roads');
         setProjects(data);
       } catch (error) {
-        console.error("Failed to load interior projects", error);
+        console.error("Failed to load roads projects", error);
       } finally {
         setLoading(false);
       }
@@ -49,13 +49,13 @@ function Interior() {
           initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.8 }}
           className="text-4xl md:text-5xl font-bold text-secondary mb-6 uppercase"
         >
-          INTERIOR
+          ROAD & INFRASTRUCTURE
         </motion.h1>
         <motion.p 
           initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.8 }}
           className="text-concrete text-lg max-w-2xl uppercase tracking-widest font-semibold"
         >
-          Complete interior design and execution for homes and spaces.
+          Government Road Works • Bridges • Highways
         </motion.p>
       </header>
 
@@ -67,7 +67,7 @@ function Interior() {
           </div>
         ) : projects.length === 0 ? (
           <div className="flex justify-center items-center h-64 text-concrete font-bold tracking-widest uppercase">
-            No interior projects found.
+            No roads projects found.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -94,7 +94,7 @@ function Interior() {
                   
                   <div className="flex flex-col flex-1">
                     <span className="text-accent text-xs font-bold tracking-widest uppercase mb-2">
-                      {project.category?.name || 'Interior'}
+                      {project.category?.name || 'Roads'}
                     </span>
                     <h3 className="text-xl font-bold text-secondary mb-2">{project.title}</h3>
                     {project.location && (
@@ -115,4 +115,4 @@ function Interior() {
   );
 }
 
-export default Interior;
+export default Roads;

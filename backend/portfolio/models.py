@@ -12,7 +12,9 @@ class Category(models.Model):
 class Project(models.Model):
     PROJECT_TYPES = (
         ('INTERIOR', 'Interior'),
-        ('CONSTRUCTION', 'Construction')
+        ('CONSTRUCTION', 'Construction'),
+        ('ROADS', 'Roads'),
+        ('REALTY', 'Realty')
     )
     
     title = models.CharField(max_length=200)
@@ -37,3 +39,17 @@ class ProjectImage(models.Model):
     
     def __str__(self):
         return f"Image for {self.project.title}"
+
+class Enquiry(models.Model):
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    interest = models.CharField(max_length=100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Enquiries"
+
+    def __str__(self):
+        return f"{self.name} - {self.interest}"
