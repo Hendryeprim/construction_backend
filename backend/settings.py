@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-)n+fa5p-+#n#^^no541)8t-n1*47*^lr5zd$!v@0118-ccqj&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['api.cjvinfrarealty.com', 'cjvinfrarealty.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,11 +125,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CORS_ALLOW_ALL_ORIGINS = True # For dev purposes
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://cjvinfrarealty.com",
+]
 
 
 # Email
@@ -139,3 +144,44 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+from django.templatetags.static import static
+
+# Unfold settings
+UNFOLD = {
+    "SITE_TITLE": "CJV Infra & Realty",
+    "SITE_HEADER": "CJV Infra & Realty CMS",
+    "SITE_URL": "https://cjvinfrarealty.com",
+    "STYLES": [
+        lambda request: static("css/admin_custom.css"),
+    ],
+    "COLORS": {
+        "primary": {
+            "50": "#e9edf3",
+            "100": "#d4dce7",
+            "200": "#a8b9cf",
+            "300": "#7d96b8",
+            "400": "#5172a0",
+            "500": "#264f89",
+            "600": "#0f2f6e",
+            "700": "#0c2658",
+            "800": "#091c42",
+            "900": "#06132c",
+        },
+    },
+}
+
+# REST Framework Auth
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
