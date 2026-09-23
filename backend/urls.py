@@ -19,10 +19,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.views.generic import RedirectView
+from django.http import JsonResponse
+
+def home_view(request):
+    return JsonResponse({
+        "status": "online",
+        "message": "API is running successfully",
+        "endpoints": {
+            "admin": "/admin/",
+            "api": "/api/"
+        }
+    })
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='https://cjvinfrarealty.com/', permanent=False)),
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('portfolio.urls')),
 ]
