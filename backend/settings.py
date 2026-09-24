@@ -143,9 +143,21 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://cjvinfrarealty.com",
     "https://www.cjvinfrarealty.com",
+    "https://api.cjvinfrarealty.com",
+    "https://www.api.cjvinfrarealty.com",
     "http://cjvinfrarealty.com",
     "http://www.cjvinfrarealty.com",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://api.cjvinfrarealty.com",
+    "https://www.api.cjvinfrarealty.com",
+    "https://cjvinfrarealty.com",
+    "https://www.cjvinfrarealty.com",
+    "http://api.cjvinfrarealty.com",
+    "http://cjvinfrarealty.com",
+]
+
 
 
 # Email
