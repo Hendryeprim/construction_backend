@@ -1,6 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import CategoryViewSet, ProjectViewSet, ProjectImageViewSet, EnquiryViewSet
+from .views import (
+    CategoryViewSet, ProjectViewSet, ProjectImageViewSet, EnquiryViewSet,
+    RegisterView, LoginView
+)
 
 router = DefaultRouter()
 router.register(r'categories', CategoryViewSet)
@@ -9,5 +12,10 @@ router.register(r'project-images', ProjectImageViewSet)
 router.register(r'enquiries', EnquiryViewSet)
 
 urlpatterns = [
+    path('auth/register/', RegisterView.as_view(), name='register'),
+    path('auth/register', RegisterView.as_view(), name='register-no-slash'),
+    path('auth/login/', LoginView.as_view(), name='login'),
+    path('auth/login', LoginView.as_view(), name='login-no-slash'),
     path('', include(router.urls)),
 ]
+
