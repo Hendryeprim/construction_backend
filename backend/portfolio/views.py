@@ -89,5 +89,25 @@ class LoginView(APIView):
                 "token": str(refresh.access_token)
             }, status=status.HTTP_200_OK)
 
-        return Response({"error": "Invalid email/username or password"}, status=status.HTTP_401_UNAUTHORIZED)
+class UserMeView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        if request.user and request.user.is_authenticated:
+            return Response(UserSerializer(request.user).data)
+
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            token_str = auth_header.split(' ')[1]
+            try:
+                from rest_framework_simplejwt.tokens import AccessToken
+                token = AccessToken(token_str)
+                user_id = token['user_id']
+                u = User.objects.get(id=user_id)
+                return Response(UserSerializer(u).data)
+            except Exception:
+                pass
+
+        return Response({"error": "User unauthenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
