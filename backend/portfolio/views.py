@@ -81,13 +81,25 @@ class LoginView(APIView):
 
         if user:
             refresh = RefreshToken.for_user(user)
-            return Response({
+            user_data = UserSerializer(user).data
+            is_admin = user.is_staff or user.is_superuser
+            
+            response_data = {
                 "message": "Login successful",
-                "user": UserSerializer(user).data,
+                "user": user_data,
+                "is_admin": is_admin,
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser,
                 "access": str(refresh.access_token),
                 "refresh": str(refresh),
                 "token": str(refresh.access_token)
-            }, status=status.HTTP_200_OK)
+            }
+            if is_admin:
+                response_data["redirect_url"] = "https://api.cjvinfrarealty.com/admin/"
+                response_data["redirect"] = "https://api.cjvinfrarealty.com/admin/"
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
 
 class UserMeView(APIView):
     permission_classes = [AllowAny]
